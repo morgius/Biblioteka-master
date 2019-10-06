@@ -15,7 +15,7 @@ namespace Biblioteka
         public readonly string path = ConfigurationManager.AppSettings["filexml"];
 
         public List<Ksiazka> ListaKsiazek { get; set; }
-        //hkk
+        
         public override List<Ksiazka> Read(string path)
         {
             var document = XDocument.Load(path);

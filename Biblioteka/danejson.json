@@ -1,1 +1,5 @@
-﻿
+{"Id":1,"Nazwa":"Miasteczko Salem","Kategoria":"Horror1111","Status":{"Dostepny":true,"Wypozyczony":false,"Zarezerwowany":false,"UserName":"None"}}
+{"Id":2,"Nazwa":"Skazani na Shawshawk","Kategoria":"Obyczajowe2222","Status":{"Dostepny":true,"Wypozyczony":false,"Zarezerwowany":false,"UserName":"None"}}
+{"Id":3,"Nazwa":"Terror","Kategoria":"Historyczna3333","Status":{"Dostepny":true,"Wypozyczony":false,"Zarezerwowany":false,"UserName":"None"}}
+{"Id":4,"Nazwa":"AAAA","Kategoria":"Xd1234","Status":{"Dostepny":false,"Wypozyczony":false,"Zarezerwowany":true,"UserName":"pp"}}
+{"Id":5,"Nazwa":"Hyperion","Kategoria":"SF5555","Status":{"Dostepny":true,"Wypozyczony":false,"Zarezerwowany":false,"UserName":"None"}}

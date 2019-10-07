@@ -10,7 +10,7 @@ namespace Biblioteka
 {
     class Biblioteka
     {
-        private Regex regex = new Regex(@"^[A-Z]\w+[0-9]{4}$");
+        
         private List<Ksiazka> ListaKsiazek { get; set; } 
         private Obslugatxt Obslugatxt { get; set; } 
         private Obslugajson Obslugajson { get; set; } 
@@ -51,21 +51,7 @@ namespace Biblioteka
             Obslugatxt.Update(ksiazka);
             Obslugajson.Update(ksiazka);
         }
-        private bool SprawdzId(int id)
-        {
-            bool czyPrawidloweId;
-            var ksiazkaId = ListaKsiazek.Where(k => k.Id == id).FirstOrDefault();
-            if(ksiazkaId is null)
-            {
-                czyPrawidloweId = false;
-            }
-            else
-            {
-                czyPrawidloweId = true;
-            }
-            return czyPrawidloweId;
-        }
-       
+        
         public void WybierzAkcje()
         {
 
@@ -73,7 +59,7 @@ namespace Biblioteka
             do
                 {
                 Console.WriteLine("Wciśnij:\n1- Wyświetl listę książek.\n2- Dodaj książkę.\n3- Usuń książkę\n4- Zaktualizuj książkę\n" +
-                    "5- Zarezerwuj książkę.\n6- Wypożycz książkę.\nESC- Zakończ pracę.");
+                    "5- Zarezerwuj książkę.\n6- Wypożycz książkę.\n7- Zwróć książkę.\nESC- Zakończ pracę.");
                     keyInput = Console.ReadKey();
                     Console.Clear();
                     switch (keyInput.Key)
@@ -101,85 +87,14 @@ namespace Biblioteka
                             Console.WriteLine("Wypożyczenie...");
                             Wypozycz();
                             break;
-                    }
+                        case ConsoleKey.D7:
+                            Console.WriteLine("Zwrot...");
+                            Zwroc();
+                            break;
+                }
                 } while (!(keyInput.Key==ConsoleKey.Escape));
         }
-        private Ksiazka KsiazkaUpdate()
-        {
-            int id = WprowadzIstniejaceId();
-            string tytul = WprowadzTytul();
-            Console.WriteLine("Podaj kategorie:");
-            string kategoria = WybierzKategorie();
-            return new Ksiazka(id, tytul, kategoria, new Status());
-        }
-
-        private string WybierzKategorie()
-        {
-            string kategoria = "";
-            bool czyKategoriaOk;
-            do
-            {
-                Console.WriteLine("Podaj kategorię w postaci 'Xxxx...xx1234'");
-                string tekst = Console.ReadLine();
-                Match match = regex.Match(tekst);
-                if (match.Success)
-                {
-                    kategoria = tekst;
-                }
-                czyKategoriaOk = match.Success;
-            } while(!czyKategoriaOk);
-            return kategoria;
-        }
-
-        private Ksiazka KsiazkaAdd()
-        {
-            int id = WprowadzUnikalneId();
-            string tytul = WprowadzTytul();
-            Console.WriteLine("Podaj kategorie:");
-            string kategoria = WybierzKategorie();
-            return new Ksiazka(id, tytul, kategoria, new Status());
-        }
-
-        private static string WprowadzTytul()
-        {
-            
-             Console.WriteLine("Podaj tytuł:");
-             string tytul = Console.ReadLine();
-             return tytul;
-        }
-
-        private int WprowadzUnikalneId()
-        {
-            bool czyOkId;
-            int nrId;
-            do
-            {
-                bool czyPrawidlowyFormat;
-                do
-                {
-                    Console.WriteLine("Wprowadź prawidlowy numer identyfikacyjny:");
-                    czyPrawidlowyFormat = int.TryParse(Console.ReadLine(), out nrId);
-                } while (!czyPrawidlowyFormat);
-                czyOkId = SprawdzId(nrId);
-            } while (czyOkId);
-            return nrId;
-        }
-        private int WprowadzIstniejaceId()
-        {
-            bool czyOkId;
-            int nrId;
-            do
-            {
-                bool czyPrawidlowyFormat;
-                do
-                {
-                    Console.WriteLine("Wprowadź prawidlowy numer identyfikacyjny:");
-                    czyPrawidlowyFormat = int.TryParse(Console.ReadLine(), out nrId);
-                } while (!czyPrawidlowyFormat);
-                czyOkId = SprawdzId(nrId);
-            } while (!czyOkId);
-            return nrId;
-        }
+       
 
         public void WydrukujListeKsiazek()
         {
@@ -246,6 +161,38 @@ namespace Biblioteka
                 Console.WriteLine($"Książka jest zarezerwowana przez {ksiazkaNaLiscie.Status.UserName}");
             }
         }
+        public void Zwroc()
+        {
+            string tytul = WprowadzTytul();
+            Console.WriteLine("Podaj swoje imię i nazwisko");
+            string userName = Console.ReadLine();
+            var ksiazkaNaLiscie = ListaKsiazek.Where(k => k.Nazwa.ToLower() == tytul.ToLower()).FirstOrDefault();
+            if (ksiazkaNaLiscie is null)
+            {
+                Console.WriteLine("Nie ma takiej książki");
+            }
+            else if ((ksiazkaNaLiscie.Status.Wypozyczony == true) && (ksiazkaNaLiscie.Status.UserName.ToLower() == userName.ToLower()))
+            {
+                
+                Ksiazka zwroconaKsiazka = new Ksiazka(ksiazkaNaLiscie.Id, ksiazkaNaLiscie.Nazwa, ksiazkaNaLiscie.Kategoria,
+                                              new Status { Dostepny = true, Wypozyczony = false, Zarezerwowany = false, UserName = "None" });
+                Console.WriteLine("Zwrocono.");
+                Update(zwroconaKsiazka);
+                Read();
+            }
+            else if ((ksiazkaNaLiscie.Status.Wypozyczony == true) && (!(ksiazkaNaLiscie.Status.UserName.ToLower() == userName.ToLower())))
+            {
+                Console.WriteLine($"Ksiazka jest wypożyczona przez {ksiazkaNaLiscie.Status.UserName}");
+            }
+            else if (ksiazkaNaLiscie.Status.Zarezerwowany == true)
+            {
+                Console.WriteLine($"Książka jest zarezerwowana przez {ksiazkaNaLiscie.Status.UserName}");
+            }
+            else
+            {
+                Console.WriteLine("Ta książka nie jest wypożyczona");
+            }
+        }
         public void Dodaj()
         {
             Add(KsiazkaAdd());
@@ -261,6 +208,96 @@ namespace Biblioteka
             Update(KsiazkaUpdate());
             Read();
         }
+        private bool SprawdzId(int id)
+        {
+            bool czyPrawidloweId;
+            var ksiazkaId = ListaKsiazek.Where(k => k.Id == id).FirstOrDefault();
+            if (ksiazkaId is null)
+            {
+                czyPrawidloweId = false;
+            }
+            else
+            {
+                czyPrawidloweId = true;
+            }
+            return czyPrawidloweId;
+        }
+        private Ksiazka KsiazkaUpdate()
+        {
+            int id = WprowadzIstniejaceId();
+            string tytul = WprowadzTytul();
+            Console.WriteLine("Podaj kategorie:");
+            string kategoria = WybierzKategorie();
+            return new Ksiazka(id, tytul, kategoria, new Status());
+        }
 
+        private string WybierzKategorie()
+        {
+            Regex regex = new Regex(@"^[A-Z]\w+[0-9]{4}$");
+            string kategoria = "";
+            bool czyKategoriaOk;
+            do
+            {
+                Console.WriteLine("Podaj kategorię w postaci 'Xxxx...xx1234'");
+                string tekst = Console.ReadLine();
+                Match match = regex.Match(tekst);
+                if (match.Success)
+                {
+                    kategoria = tekst;
+                }
+                czyKategoriaOk = match.Success;
+            } while (!czyKategoriaOk);
+            return kategoria;
+        }
+
+        private Ksiazka KsiazkaAdd()
+        {
+            int id = WprowadzUnikalneId();
+            string tytul = WprowadzTytul();
+            Console.WriteLine("Podaj kategorie:");
+            string kategoria = WybierzKategorie();
+            return new Ksiazka(id, tytul, kategoria, new Status());
+        }
+
+        private static string WprowadzTytul()
+        {
+
+            Console.WriteLine("Podaj tytuł:");
+            string tytul = Console.ReadLine();
+            return tytul;
+        }
+
+        private int WprowadzUnikalneId()
+        {
+            bool czyOkId;
+            int nrId;
+            do
+            {
+                bool czyPrawidlowyFormat;
+                do
+                {
+                    Console.WriteLine("Wprowadź prawidlowy numer identyfikacyjny:");
+                    czyPrawidlowyFormat = int.TryParse(Console.ReadLine(), out nrId);
+                } while (!czyPrawidlowyFormat);
+                czyOkId = SprawdzId(nrId);
+            } while (czyOkId);
+            return nrId;
+        }
+        private int WprowadzIstniejaceId()
+        {
+            bool czyOkId;
+            int nrId;
+            do
+            {
+                bool czyPrawidlowyFormat;
+                do
+                {
+                    Console.WriteLine("Wprowadź prawidlowy numer identyfikacyjny:");
+                    czyPrawidlowyFormat = int.TryParse(Console.ReadLine(), out nrId);
+                } while (!czyPrawidlowyFormat);
+                czyOkId = SprawdzId(nrId);
+            } while (!czyOkId);
+            return nrId;
+        }
     }
 }

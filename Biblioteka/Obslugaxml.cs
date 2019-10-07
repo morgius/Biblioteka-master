@@ -12,7 +12,10 @@ namespace Biblioteka
     public class Obslugaxml:ObslugaPlikow
     {
         //public readonly string path = "danexml.xml";
-        public readonly string path = ConfigurationManager.AppSettings["filexml"];
+        //public readonly string path = ConfigurationManager.AppSettings["filexml"];
+        public readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danexml.xml";
+        //string path = Path.Combine(Environment.CurrentDirectory, "danexml.xml");
+
 
         public List<Ksiazka> ListaKsiazek { get; set; }
         //

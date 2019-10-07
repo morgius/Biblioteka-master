@@ -1,1 +1,5 @@
-1,aaa,Sc1234,True,False,False,None
+1,Miasteczko Salem,Horror1111,True,False,False,None
+2,Skazani na Shawshawk,Obyczajowe2222,True,False,False,None
+3,Terror,Historyczna3333,True,False,False,None
+4,AAAA,Xd1234,False,True,False,pp
+5,Hyperion,SF5555,True,False,False,None

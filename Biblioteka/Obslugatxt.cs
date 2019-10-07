@@ -10,8 +10,11 @@ namespace Biblioteka
 {
     public class Obslugatxt:ObslugaPlikow
     {
-        private readonly string path = @"C:\Users\Bezimienny\Downloads\Biblioteka-master\Biblioteka-master\Biblioteka\danetxt.txt";
+        private readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danetxt.txt";
+        //string temp = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danetxt.txt";
         //private readonly string path = ConfigurationManager.AppSettings["filetxt"];
+        //public readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danetxt.txt";
+
 
         public List<Ksiazka> ListaKsiazek { get; set; }
 

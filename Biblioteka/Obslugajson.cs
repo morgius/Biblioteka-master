@@ -12,7 +12,9 @@ namespace Biblioteka
     public class Obslugajson : ObslugaPlikow
     {
         //public readonly string path = "danejson.json";
-        private readonly string path = ConfigurationManager.AppSettings["filejson"];
+        //private readonly string path = ConfigurationManager.AppSettings["filejson"];
+        public readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danejson.json";
+        
         public List<Ksiazka> ListaKsiazek { get; set; }
 
 

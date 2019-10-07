@@ -15,10 +15,7 @@ namespace Biblioteka
         //public readonly string path = ConfigurationManager.AppSettings["filexml"];
         public readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danexml.xml";
         //string path = Path.Combine(Environment.CurrentDirectory, "danexml.xml");
-
-
-        public List<Ksiazka> ListaKsiazek { get; set; }
-        //
+        
         public override List<Ksiazka> Read(string path)
         {
             var document = XDocument.Load(path);

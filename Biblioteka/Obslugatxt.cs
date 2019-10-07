@@ -15,10 +15,6 @@ namespace Biblioteka
         //private readonly string path = ConfigurationManager.AppSettings["filetxt"];
         //public readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danetxt.txt";
 
-
-        public List<Ksiazka> ListaKsiazek { get; set; }
-
-
         public override List<Ksiazka> Read(string path)
         {
             return File.ReadAllLines(path).Select(TxtToKsiazka).ToList();

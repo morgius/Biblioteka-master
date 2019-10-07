@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Biblioteka.cs" />
     <Compile Include="Ksiazka.cs" />
-    <Compile Include="Obsluga.cs" />
     <Compile Include="Obslugajson.cs" />
     <Compile Include="ObslugaPlikow.cs" />
     <Compile Include="Obslugatxt.cs" />

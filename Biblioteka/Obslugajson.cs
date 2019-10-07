@@ -15,8 +15,6 @@ namespace Biblioteka
         //private readonly string path = ConfigurationManager.AppSettings["filejson"];
         public readonly string path = @"C:\Users\Bezimienny\Source\Repos\Biblioteka-master\Biblioteka\danejson.json";
         
-        public List<Ksiazka> ListaKsiazek { get; set; }
-
 
         public override List<Ksiazka> Read(string path)
         {

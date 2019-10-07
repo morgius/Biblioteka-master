@@ -18,7 +18,7 @@ namespace Biblioteka
      * string path = AppDomain.CurrentDomain.BaseDirectory;
      *  string path = ConfigurationManager.AppSettings["filexml"];
      * jednak daja one dostep do folderu bin\debug, nie do wlasciwego folderu w ktorym sie one znajduja.
-     * Aby program zadzialal trzeba podmienic stringi wejsciowe w klasach obsugatxt itd
+     * Aby program zadzialal trzeba podmienic stringi wejsciowe w klasach obsugatxt itd 
      */ 
     class Program
     {
